@@ -11,6 +11,9 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
@@ -25,19 +28,11 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
   ],
-  resolve: {
-    extensions: [".js", ".jsx"],
-  },
   module: {
     rules: [
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: "asset/resource",
-      },
-      {
-        test: /\.[jt]sx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
       },
       {
         test: /\.s[ac]ss$/i,
@@ -54,6 +49,11 @@ module.exports = {
           },
           "sass-loader",
         ],
+      },
+      {
+        test: /\.[jt]sx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
       },
     ],
   },
