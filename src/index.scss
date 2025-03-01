@@ -1,9 +1,37 @@
 @font-face {
-  font-family: 'Roboto';
-  src: url('./fonts/Roboto-Regular.ttf') format('truetype');
+  font-family: "Roboto";
+  src: url("./fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+* {
+  margin: auto;
+  box-sizing: border-box;
 }
 
 body {
+  margin: 0;
   color: red;
-  font-family: 'Roboto', sans-serif; // just to check if it works
+  font-family: "Roboto", sans-serif; 
+}
+
+.app {
+  height: 100vh;
+}
+
+.background {
+  background-image: url("./assets/summer-bg.jpg");
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
