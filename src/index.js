@@ -41,12 +41,19 @@ const toggleSound = (sound, button, icon, otherSounds = []) => {
   otherSounds.forEach((snd) => snd.pause());
 };
 
+const restoreIcons = () => {
+  summerBtn.children[0].src = SUN_ICON;
+  rainBtn.children[0].src = RAIN_ICON;
+  winterBtn.children[0].src = SNOW_ICON;
+};
+
 summerBtn.addEventListener("click", () => {
   const icon = { play: SUN_ICON, pause: PAUSE_ICON };
 
   if (actualSound === summerSound) {
     toggleSound(summerSound, summerBtn, icon);
   } else {
+    restoreIcons();
     actualSound = summerSound;
     toggleSound(summerSound, summerBtn, icon, [rainSound, winterSound]);
   }
@@ -58,6 +65,7 @@ rainBtn.addEventListener("click", () => {
   if (actualSound === rainSound) {
     toggleSound(rainSound, rainBtn, icon);
   } else {
+    restoreIcons();
     actualSound = rainSound;
     toggleSound(rainSound, rainBtn, icon, [summerSound, winterSound]);
   }
@@ -69,6 +77,7 @@ winterBtn.addEventListener("click", () => {
   if (actualSound === winterSound) {
     toggleSound(winterSound, winterBtn, icon);
   } else {
+    restoreIcons();
     actualSound = winterSound;
     toggleSound(winterSound, winterBtn, icon, [summerSound, rainSound]);
   }
