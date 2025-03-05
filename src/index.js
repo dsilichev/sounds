@@ -22,27 +22,54 @@ let volume = null;
 volumeSlider.addEventListener("input", () => {
   if (actualSound) {
     volume = volumeSlider.value;
-    actualSound.volume = +volume/100;
+    actualSound.volume = +volume / 100;
   }
 });
+
+const toggleSound = (sound, button, icon, otherSounds = []) => {
+  if (sound.paused) {
+    sound.play();
+    button.children[0].src = icon.play;
+    console.log("play");
+  } else {
+    sound.pause();
+    button.children[0].src = icon.pause;
+    console.log("pause");
+  }
+
+  // Pause other sounds
+  otherSounds.forEach((snd) => snd.pause());
+};
 
 summerBtn.addEventListener("click", () => {
+  const icon = { play: SUN_ICON, pause: PAUSE_ICON };
+
   if (actualSound === summerSound) {
-    if (summerSound.paused) {
-      summerSound.play();
-      summerBtn.children[0].src = SUN_ICON;
-      console.log("play");
-    } else {
-      summerSound.pause();
-      summerBtn.children[0].src = PAUSE_ICON;
-      console.log("pause");
-    }
+    toggleSound(summerSound, summerBtn, icon);
   } else {
     actualSound = summerSound;
-    summerSound.play();
-    console.log("play");
-    rainSound.pause();
-    winterSound.pause();
+    toggleSound(summerSound, summerBtn, icon, [rainSound, winterSound]);
   }
 });
 
+rainBtn.addEventListener("click", () => {
+  const icon = { play: RAIN_ICON, pause: PAUSE_ICON };
+
+  if (actualSound === rainSound) {
+    toggleSound(rainSound, rainBtn, icon);
+  } else {
+    actualSound = rainSound;
+    toggleSound(rainSound, rainBtn, icon, [summerSound, winterSound]);
+  }
+});
+
+winterBtn.addEventListener("click", () => { 
+  const icon = { play: SNOW_ICON, pause: PAUSE_ICON };
+
+  if (actualSound === winterSound) {
+    toggleSound(winterSound, winterBtn, icon);
+  } else {
+    actualSound = winterSound;
+    toggleSound(winterSound, winterBtn, icon, [summerSound, rainSound]);
+  }
+})
