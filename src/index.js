@@ -17,6 +17,7 @@ const winterBtn = document.getElementById("winter");
 const volumeSlider = document.getElementById("volume");
 
 let actualSound = null;
+let actualBackground = summerBtn.id;
 let volume = null;
 
 volumeSlider.addEventListener("input", () => {
@@ -47,12 +48,23 @@ const restoreIcons = () => {
   winterBtn.children[0].src = SNOW_ICON;
 };
 
+const setBackground = (currentBg, newBg) => {
+  const background = document.getElementById("background");
+  if (currentBg) {
+    background.classList.replace(currentBg, newBg);
+  } else {
+    background.classList.add(newBg);
+  }
+}
+
 summerBtn.addEventListener("click", () => {
   const icon = { play: SUN_ICON, pause: PAUSE_ICON };
 
   if (actualSound === summerSound) {
     toggleSound(summerSound, summerBtn, icon);
   } else {
+    setBackground(actualBackground, summerBtn.id);
+    actualBackground = summerBtn.id;
     restoreIcons();
     actualSound = summerSound;
     toggleSound(summerSound, summerBtn, icon, [rainSound, winterSound]);
@@ -65,6 +77,8 @@ rainBtn.addEventListener("click", () => {
   if (actualSound === rainSound) {
     toggleSound(rainSound, rainBtn, icon);
   } else {
+    setBackground(actualBackground, rainBtn.id);
+    actualBackground = rainBtn.id;
     restoreIcons();
     actualSound = rainSound;
     toggleSound(rainSound, rainBtn, icon, [summerSound, winterSound]);
@@ -77,6 +91,8 @@ winterBtn.addEventListener("click", () => {
   if (actualSound === winterSound) {
     toggleSound(winterSound, winterBtn, icon);
   } else {
+    setBackground(actualBackground, winterBtn.id);
+    actualBackground = winterBtn.id;
     restoreIcons();
     actualSound = winterSound;
     toggleSound(winterSound, winterBtn, icon, [summerSound, rainSound]);
