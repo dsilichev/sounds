@@ -5,11 +5,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
-  entry: "./index.jsx",
+  entry: "./index.js",
   output: {
     filename: "[name].[contenthash].bundle.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    assetModuleFilename: "assets/[name][ext]",
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -24,6 +25,10 @@ module.exports = {
           from: path.resolve(__dirname, "public/favicon.png"),
           to: path.resolve(__dirname, "dist"),
         },
+        {
+          from: path.resolve(__dirname, "public/icons"),
+          to: path.resolve(__dirname, "dist"),
+        }
       ],
     }),
     new MiniCssExtractPlugin(),
@@ -54,6 +59,14 @@ module.exports = {
         test: /\.[jt]sx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(jpg|png|svg|gif)$/,
+        type: "asset/resource",
+      },
+      {
+        test: /\.(mp3)$/,
+        type: "asset/resource",
       },
     ],
   },

@@ -4,10 +4,29 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.png" />
     <title>Sounds</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="app">
+      <div class="background"></div>
+      <div class="content">
+        <h1 class="header">Weather sounds</h1>
+        <div class="sounds-panel">
+          <a id="summer" href="#" class="sounds-item summer"
+            ><img src="icons/sun.svg" class="sounds-item-icon"
+          /></a>
+          <a id="rain" href="#" class="sounds-item rain"
+            ><img src="icons/cloud-rain.svg" class="sounds-item-icon"
+          /></a>
+          <a id="winter" href="#" class="sounds-item winter"
+            ><img src="icons/cloud-snow.svg" class="sounds-item-icon"
+          /></a>
+        </div>
+        <div class="volume-control">
+          <input id="volume" type="range" min="0" max="100" step="1" />
+        </div>
+      </div>
+    </div>
   </body>
 </html>
