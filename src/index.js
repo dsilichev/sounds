@@ -31,11 +31,9 @@ const toggleSound = (sound, button, icon, otherSounds = []) => {
   if (sound.paused) {
     sound.play();
     button.children[0].src = icon.play;
-    console.log("play");
   } else {
     sound.pause();
     button.children[0].src = icon.pause;
-    console.log("pause");
   }
 
   // Pause other sounds
