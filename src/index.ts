@@ -7,27 +7,36 @@ import SUN_ICON from "../public/icons/sun.svg";
 import RAIN_ICON from "../public/icons/cloud-rain.svg";
 import SNOW_ICON from "../public/icons/cloud-snow.svg";
 
-const summerSound = new Audio(SUMMER_SOUND);
-const rainSound = new Audio(RAIN_SOUND);
-const winterSound = new Audio(WINTER_SOUND);
+const summerSound = new Audio(SUMMER_SOUND) as HTMLAudioElement;
+const rainSound = new Audio(RAIN_SOUND) as HTMLAudioElement;
+const winterSound = new Audio(WINTER_SOUND) as HTMLAudioElement;
 
-const summerBtn = document.getElementById("summer");
-const rainBtn = document.getElementById("rain");
-const winterBtn = document.getElementById("winter");
-const volumeSlider = document.getElementById("volume");
+type Button = HTMLAnchorElement & {
+  children?: HTMLImageElement[];
+}
 
-let actualSound = null;
-let actualBackground = summerBtn.id;
-let volume = null;
+const summerBtn = document.getElementById("summer") as Button;
+const rainBtn = document.getElementById("rain") as Button;
+const winterBtn = document.getElementById("winter") as Button;
+const volumeSlider = document.getElementById("volume") as HTMLInputElement;
+
+let actualSound: null | HTMLAudioElement = null;
+let actualBackground: string = summerBtn.id;
+let volume: null | number = null;
 
 volumeSlider.addEventListener("input", () => {
   if (actualSound) {
-    volume = volumeSlider.value;
-    actualSound.volume = +volume / 100;
+    volume = Number(volumeSlider.value);
+    actualSound.volume = volume / 100;
   }
 });
 
-const toggleSound = (sound, button, icon, otherSounds = []) => {
+const toggleSound = (
+  sound: HTMLAudioElement,
+  button: Button,
+  icon: any,
+  otherSounds: HTMLAudioElement[] = []
+) => {
   if (sound.paused) {
     sound.play();
     button.children[0].src = icon.play;
@@ -46,14 +55,14 @@ const restoreIcons = () => {
   winterBtn.children[0].src = SNOW_ICON;
 };
 
-const setBackground = (currentBg, newBg) => {
-  const background = document.getElementById("background");
+const setBackground = (currentBg : any, newBg : any) => {
+  const background = document.getElementById("background") as HTMLDivElement;
   if (currentBg) {
     background.classList.replace(currentBg, newBg);
   } else {
     background.classList.add(newBg);
   }
-}
+};
 
 summerBtn.addEventListener("click", () => {
   const icon = { play: SUN_ICON, pause: PAUSE_ICON };
@@ -83,7 +92,7 @@ rainBtn.addEventListener("click", () => {
   }
 });
 
-winterBtn.addEventListener("click", () => { 
+winterBtn.addEventListener("click", () => {
   const icon = { play: SNOW_ICON, pause: PAUSE_ICON };
 
   if (actualSound === winterSound) {
@@ -95,4 +104,4 @@ winterBtn.addEventListener("click", () => {
     actualSound = winterSound;
     toggleSound(winterSound, winterBtn, icon, [summerSound, rainSound]);
   }
-})
+});
