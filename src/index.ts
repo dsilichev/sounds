@@ -11,6 +11,8 @@ const summerSound = new Audio(SUMMER_SOUND) as HTMLAudioElement;
 const rainSound = new Audio(RAIN_SOUND) as HTMLAudioElement;
 const winterSound = new Audio(WINTER_SOUND) as HTMLAudioElement;
 
+const sounds: HTMLAudioElement[] = [summerSound, rainSound, winterSound];
+
 type Button = HTMLAnchorElement & {
   children?: HTMLImageElement[];
 }
@@ -35,7 +37,6 @@ const toggleSound = (
   sound: HTMLAudioElement,
   button: Button,
   icon: any,
-  otherSounds: HTMLAudioElement[] = []
 ) => {
   if (sound.paused) {
     sound.play();
@@ -46,6 +47,7 @@ const toggleSound = (
   }
 
   // Pause other sounds
+  const otherSounds = sounds.filter((snd) => snd !== sound);
   otherSounds.forEach((snd) => snd.pause());
 };
 
@@ -64,44 +66,35 @@ const setBackground = (currentBg : any, newBg : any) => {
   }
 };
 
-summerBtn.addEventListener("click", () => {
-  const icon = { play: SUN_ICON, pause: PAUSE_ICON };
-
-  if (actualSound === summerSound) {
-    toggleSound(summerSound, summerBtn, icon);
+function btnCickHandler(e: MouseEvent, sound: HTMLAudioElement) {
+  let target = e.currentTarget as Button;
+  
+  const icon = { play: "", pause: "" };
+  if (target.id === "summer") {
+    icon.play = SUN_ICON;
+    icon.pause = PAUSE_ICON;
+  } else if (target.id === "rain") {
+    icon.play = RAIN_ICON;
+    icon.pause = PAUSE_ICON;
   } else {
-    setBackground(actualBackground, summerBtn.id);
-    actualBackground = summerBtn.id;
-    restoreIcons();
-    actualSound = summerSound;
-    toggleSound(summerSound, summerBtn, icon, [rainSound, winterSound]);
+    icon.play = SNOW_ICON;
+    icon.pause = PAUSE_ICON;
   }
-});
 
-rainBtn.addEventListener("click", () => {
-  const icon = { play: RAIN_ICON, pause: PAUSE_ICON };
-
-  if (actualSound === rainSound) {
-    toggleSound(rainSound, rainBtn, icon);
+  if (actualSound === sound) {
+    toggleSound(sound, target, icon);
   } else {
-    setBackground(actualBackground, rainBtn.id);
-    actualBackground = rainBtn.id;
+    setBackground(actualBackground, target.id);
+    actualBackground = target.id;
     restoreIcons();
-    actualSound = rainSound;
-    toggleSound(rainSound, rainBtn, icon, [summerSound, winterSound]);
+    actualSound = sound;
+    actualSound.volume = volume ? volume / 100 : 0.5;
+    toggleSound(sound, target, icon);
   }
-});
+}
 
-winterBtn.addEventListener("click", () => {
-  const icon = { play: SNOW_ICON, pause: PAUSE_ICON };
+summerBtn.addEventListener("click", (e) => btnCickHandler(e, summerSound))
 
-  if (actualSound === winterSound) {
-    toggleSound(winterSound, winterBtn, icon);
-  } else {
-    setBackground(actualBackground, winterBtn.id);
-    actualBackground = winterBtn.id;
-    restoreIcons();
-    actualSound = winterSound;
-    toggleSound(winterSound, winterBtn, icon, [summerSound, rainSound]);
-  }
-});
+rainBtn.addEventListener("click", (e) => btnCickHandler(e, rainSound));
+
+winterBtn.addEventListener("click", (e) => btnCickHandler(e, winterSound)); 
